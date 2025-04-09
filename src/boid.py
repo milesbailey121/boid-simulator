@@ -27,9 +27,9 @@ class Boid:
     def move(self):
         self.acceleration = self.coherence_acceleration + self.seperate_acceleration + self.align_acceleration
 
-        vector = self.velocity + self.acceleration
+        vel = self.velocity + self.acceleration
 
-        self.velocity = (vector) / np.linalg.norm(vector)
+        self.velocity = (vel) / np.linalg.norm(vel)
         self.direction = np.arctan2(self.velocity[1],self.velocity[0])
         self.position += self.velocity
 
@@ -38,7 +38,7 @@ class Boid:
         #     self.position[0] = np.abs(self.position[0] - self.width)
         # if self.position[1] > self.height or self.position[1] < 0:
         #     self.position[1] = np.abs(self.position[1] - self.height)
-        #TO DO: Implement Boid turning around at boreder 
+        
         if self.position[0] < MARGIN:
             self.velocity[0] = self.velocity[0] + TURNFACTOR
         if self.position[0] > self.width - MARGIN:
@@ -48,11 +48,21 @@ class Boid:
         if self.position[1] < MARGIN:
             self.velocity[1] = self.velocity[1] + TURNFACTOR
 
-    def cohere(self,boids,distances,power,radius):
+    def cohere(self,boids,distances):
         near_boids = [
             d[1] for d in distances[self.id]
-            if 0 < d[0] < radius and boids[d[1]]
+            if 0 < d[0] < VISUAL_RANGE
         ]
+        if len(near_boids) > 0:
+            near_boid = [boids[near_boid_id] for near_boid_id in near_boids]
+
+            centre_of_flock = np.mean(np.array([boid.position for boid in near_boid]))
+
+            vector = np.subtract(centre_of_flock,self.position)
+
+            self.coherence_acceleration = COHERENCE * (vector / np.linalg.norm(vector))
+        else:
+            self.coherence_acceleration = np.array[(0,0)]
 
     def seperate():
         pass
