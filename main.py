@@ -42,11 +42,14 @@ def main(height,width):
         distances = distance_between_vectors([boid.position for boid in boids]) # Added
         for boid in boids:
             boid.cohere(boids,distances)
+            boid.seperate(boids,distances)
+            boid.align(boids,distances)
             boid.move()
             boid.draw(display)
 
-
+        clock.tick(30)
         pygame.display.update()
+        
 
 if __name__ == "__main__":
     main(1280, 720)
