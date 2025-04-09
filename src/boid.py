@@ -28,7 +28,6 @@ class Boid:
         self.acceleration = self.coherence_acceleration + self.seperate_acceleration + self.align_acceleration
 
         vel = self.velocity + self.acceleration
-
         self.velocity = (vel) / np.linalg.norm(vel)
         self.direction = np.arctan2(self.velocity[1],self.velocity[0])
         self.position += self.velocity
@@ -62,13 +61,36 @@ class Boid:
 
             self.coherence_acceleration = COHERENCE * (vector / np.linalg.norm(vector))
         else:
-            self.coherence_acceleration = np.array[(0,0)]
+            self.coherence_acceleration = np.array([(0,0)])
 
-    def seperate():
-        pass
+    def seperate(self,boids,distances):
+        near_boids = [
+            d[1] for d in distances[self.id]
+            if 0 < d[0] > PROTECTED_RANGE
+        ]
+        if len(near_boids) > 0:
+            near_boid = [boids[near_boid_id] for near_boid_id in near_boids]
 
-    def align():
-        pass
+            centre_of_flock_near = np.mean(np.array([boid.position for boid in near_boid]))
+
+            vector = np.subtract(centre_of_flock_near,self.position)
+
+            self.seperate_acceleration =  - SEPERATION * (vector / np.linalg.norm(vector))
+        else:
+            self.seperate_acceleration = np.array([(0,0)])
+
+    def align(self,boids,distances):
+        near_boids = [
+            d[1] for d in distances[self.id]
+            if 0 < d[0] > VISUAL_RANGE
+        ]
+        if len(near_boids) > 0:
+            near_boid = [boids[near_boid_id] for near_boid_id in near_boids]
+
+            vector = np.sum([boid.velocity for boid in near_boid], axis=0)
+            self.align_acceleration = ALIGNMENT * (vector / np.linalg.norm(vector))
+        else:
+            self.align_acceleration = np.array([(0,0)])
         
 
     def draw(self,display):
