@@ -27,6 +27,7 @@ def main(height,width):
     pygame.display.set_caption("Boid Simulation")
     clock = pygame.time.Clock()
     
+    visualse_range = False
     boids = []
     for i in range(BOID_NUM):
         boids.append(Boid(i))
@@ -36,6 +37,12 @@ def main(height,width):
             if event.type == pygame.QUIT:
                 run = False
                 exit()
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_UP]:
+                if visualse_range == False:
+                    visualse_range = True
+                else:
+                    visualse_range = False
     
         display.fill((0,0,0))
 
@@ -44,10 +51,13 @@ def main(height,width):
             boid.cohere(boids,distances)
             boid.seperate(boids,distances)
             boid.align(boids,distances)
+            # boid.avoid_walls()
             boid.move()
             boid.draw(display)
+            if visualse_range == True:
+                 boid.draw_range(display)
 
-        clock.tick(30)
+        # clock.tick(30)
         pygame.display.update()
         
 
