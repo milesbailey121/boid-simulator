@@ -7,26 +7,13 @@ import numpy as np
 
 pygame.init()
 
-def distance_between_vectors(vectors):
-	distance_list = [[0] * len(vectors) for _ in range(len(vectors))]
-	for i in range(len(vectors)):
-		distance_list[i][i] = (0, i)
-		for j in range(len(vectors)):
-			if i < j:
-				# Calculate the distance between two vectors.
-				distance = np.linalg.norm(np.subtract(vectors[i], vectors[j]))
-				# Store the calculated distance at index i,j.
-				distance_list[i][j] = (distance, j)
-				distance_list[j][i] = (distance, i)
-	return distance_list
-
 def main(height,width):
     run = True
 
     display = pygame.display.set_mode((height, width))
     pygame.display.set_caption("Boid Simulation")
+    pygame.display.set_icon(pygame.image.load("src/assets/icon-32x32.png"))
     clock = pygame.time.Clock()
-    
     visualse_range = False
     boids = []
     for i in range(BOID_NUM):
@@ -45,21 +32,18 @@ def main(height,width):
                     visualse_range = False
     
         display.fill((0,0,0))
-
-        distances = distance_between_vectors([boid.position for boid in boids]) # Added
+        # pygame.draw.rect(display, (255, 0, 0), (MARGIN, MARGIN, width - MARGIN, height - MARGIN), 1)
         for boid in boids:
-            boid.cohere(boids,distances)
-            boid.seperate(boids,distances)
-            boid.align(boids,distances)
-            # boid.avoid_walls()
+            boid.update_behavior(boids)
             boid.move()
             boid.draw(display)
-            if visualse_range == True:
-                 boid.draw_range(display)
+            if visualse_range:
+                boid.draw_range(display)
 
-        # clock.tick(30)
         pygame.display.update()
-        
+        clock.tick(30)
+        print(clock.get_fps())
 
 if __name__ == "__main__":
-    main(1280, 720)
+    # main(1280, 720)
+    main(640, 480)
