@@ -8,12 +8,10 @@
 ## Table of Contents
 
 - [Overview](#overview)
-- [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Controls](#controls)
 - [Configuration](#configuration)
-- [Contributing](#contributing)
 
 
 
