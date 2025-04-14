@@ -28,7 +28,7 @@ This project simulates the flocking behavior of boids, inspired by Craig Reynold
 Clone the repository and install any dependencies:
 
 ```bash
-git clone https://github.com/yourusername/boid-simulator.git
+git clone https://github.com/milesbailey121/boid-simulator.git
 cd boid-simulator
 pip install -r requirements.txt
 ```
