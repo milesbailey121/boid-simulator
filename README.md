@@ -3,7 +3,7 @@
 
 > A simple simulation of flocking behavior using the Boids algorithm. A fun project to practice my python skills! 
 
-![Alt text](src/assets/simulation.gif)
+![Alt text](src\assets\simulation.gif)
 
 ## Table of Contents
 
