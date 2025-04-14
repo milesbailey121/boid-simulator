@@ -5,6 +5,8 @@
 
 ![Alt text](src\assets\simulation.gif)
 
+![Alt text](src\assets\icon-32x32.png)
+
 ## Table of Contents
 
 - [Overview](#overview)
